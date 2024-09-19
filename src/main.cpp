@@ -78,7 +78,7 @@ void buttonActions(){
 
   if(!buttons[4]){
     Keyboard.press(KEY_LEFT_CTRL);
-    Keyboard.write('V');
+    Keyboard.write('v');
     Keyboard.releaseAll();
   }
   
