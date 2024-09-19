@@ -64,10 +64,11 @@ void buttonActions(){
   else{Mouse.release(MOUSE_RIGHT);}
 
   if(!buttons[2]){
-    Keyboard.press(KEY_LEFT_CTRL);
-    Keyboard.write('s');
-    Keyboard.releaseAll();
-  }
+    Mouse.press(MOUSE_LEFT);
+    Mouse.release(MOUSE_LEFT);
+    Mouse.press(MOUSE_LEFT);
+    }
+  else{Mouse.release(MOUSE_LEFT);}
 
   if(!buttons[3]){
     Keyboard.press(KEY_LEFT_CTRL);
@@ -77,13 +78,13 @@ void buttonActions(){
 
   if(!buttons[4]){
     Keyboard.press(KEY_LEFT_CTRL);
-    Keyboard.write('x');
+    Keyboard.write('V');
     Keyboard.releaseAll();
   }
   
   if(!buttons[5]){
     Keyboard.press(KEY_LEFT_CTRL);
-    Keyboard.write('v');
+    Keyboard.write('z');
     Keyboard.releaseAll();
   }
 }
