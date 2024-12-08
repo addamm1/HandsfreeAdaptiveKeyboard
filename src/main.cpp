@@ -146,13 +146,13 @@ void buttonActions(){
 void scrollActions(){
   if(scrolls[0] < 475 && nextMillisV < millis()){ // Vertical potentiometer
       delay(1);
-      Mouse.move(0, 0, -1);
+      Mouse.move(0, 0, 1);
       delay(1);
       nextMillisV = millis() + MIN_SCROLL_SPEED_DELAY + (int)(SCROLL_SPEED_DELAY * ((float)scrolls[0] / 475.0));
   }
   else if(scrolls[0] > 650 && nextMillisV < millis()){
       delay(1);
-      Mouse.move(0, 0, 1);
+      Mouse.move(0, 0, -1);
       delay(1);
       nextMillisV = millis() + MIN_SCROLL_SPEED_DELAY + (int)(SCROLL_SPEED_DELAY * ((1024.0 - (float)scrolls[0]) / 374.0));
   }
