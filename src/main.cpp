@@ -8,8 +8,18 @@
 #define LowerLeft 5
 #define LowerMiddle 6
 #define LowerRight 7
-#define JOY_V_PIN A0
-#define JOY_H_PIN A1
+#define JOY_H_PIN A0
+#define JOY_V_PIN A1
+
+#define VERT_MIN 175
+#define VERT_MAX 875
+#define HORI_MIN 30
+#define HORI_MAX 700
+
+#define VERT_DEADZONE_MIN 500
+#define VERT_DEADZONE_MAX 650
+#define HORI_DEADZONE_MIN 250
+#define HORI_DEADZONE_MAX 340
 
 #define MOUSECLICK1 MOUSE_LEFT
 #define MOUSECLICK2 MOUSE_RIGHT
@@ -65,6 +75,9 @@ void loop() {
 void pollScrolls(){
   scrolls[0] = analogRead(JOY_V_PIN);
   scrolls[1] = analogRead(JOY_H_PIN);
+  Serial.print(scrolls[0]);
+  Serial.print(" ");
+  Serial.println(scrolls[1]);
 }
 
 void pollButtons(){
@@ -144,33 +157,33 @@ void buttonActions(){
 }
 
 void scrollActions(){
-  if(scrolls[0] < 475 && nextMillisV < millis()){ // Vertical potentiometer
+  if(scrolls[0] < VERT_DEADZONE_MIN && nextMillisV < millis()){ // Vertical potentiometer
       delay(1);
       Mouse.move(0, 0, 1);
       delay(1);
-      nextMillisV = millis() + MIN_SCROLL_SPEED_DELAY + (int)(SCROLL_SPEED_DELAY * ((float)scrolls[0] / 475.0));
+      nextMillisV = millis() + MIN_SCROLL_SPEED_DELAY + (int)(SCROLL_SPEED_DELAY * (((float)scrolls[0] - VERT_MIN) / (VERT_DEADZONE_MIN - VERT_MIN)));
   }
-  else if(scrolls[0] > 650 && nextMillisV < millis()){
+  else if(scrolls[0] > VERT_DEADZONE_MAX && nextMillisV < millis()){
       delay(1);
       Mouse.move(0, 0, -1);
       delay(1);
-      nextMillisV = millis() + MIN_SCROLL_SPEED_DELAY + (int)(SCROLL_SPEED_DELAY * ((1024.0 - (float)scrolls[0]) / 374.0));
+      nextMillisV = millis() + MIN_SCROLL_SPEED_DELAY + (int)(SCROLL_SPEED_DELAY * ((VERT_MAX - (float)scrolls[0]) / VERT_DEADZONE_MAX));
   }
   
-  if(scrolls[1] < 475 && nextMillisH < millis()){ // Horizontal potentiometer
+  if(scrolls[1] < HORI_DEADZONE_MIN && nextMillisH < millis()){ // Horizontal potentiometer
       Keyboard.press(KEY_LEFT_SHIFT);
       delay(1);
       Mouse.move(0, 0, 1);
       delay(1);
       Keyboard.release(KEY_LEFT_SHIFT);
-      nextMillisH = millis() + MIN_SCROLL_SPEED_DELAY + (int)(SCROLL_SPEED_DELAY * ((float)scrolls[1] / 475.0));
+      nextMillisH = millis() + MIN_SCROLL_SPEED_DELAY + (int)(SCROLL_SPEED_DELAY * (((float)scrolls[1] - HORI_MIN) / (HORI_DEADZONE_MIN - VERT_MIN)));
   }
-  else if(scrolls[1] > 650 && nextMillisH < millis()){
+  else if(scrolls[1] > HORI_DEADZONE_MAX && nextMillisH < millis()){
       Keyboard.press(KEY_LEFT_SHIFT);
       delay(1);
       Mouse.move(0, 0, -1);
       delay(1);
       Keyboard.release(KEY_LEFT_SHIFT);
-      nextMillisH = millis() + MIN_SCROLL_SPEED_DELAY + (int)(SCROLL_SPEED_DELAY * ((1024.0 - (float)scrolls[1]) / 374.0));
+      nextMillisH = millis() + MIN_SCROLL_SPEED_DELAY + (int)(SCROLL_SPEED_DELAY * ((HORI_MAX - (float)scrolls[1]) / HORI_DEADZONE_MAX));
   }
 }
